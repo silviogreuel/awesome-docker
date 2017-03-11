@@ -1,0 +1,8 @@
+FROM elasticsearch:latest
+MAINTAINER Silvio Greuel
+ENV ES_JAVA_OPTS -Xms1g -Xmx1g
+RUN bin/elasticsearch-plugin install lmenezes/elasticsearch-kopf/master
+RUN bin/plugin --install lmenezes/elasticsearch-kopf/master
+
+docker build -t kopf .
+docker run --name elasticsearch -e ES_JAVA_OPTS="-Xms1g -Xmx1g" -p 9200:9200 -p 9300:9300 kopf
