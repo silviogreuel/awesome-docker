@@ -1,0 +1,10 @@
+notadb:
+  image: mongo:3.0
+  command: --smallfiles --rest
+
+notachat:
+  image: rocket.chat
+  links: 
+    - notadb
+  ports: 
+    - 3000:3000

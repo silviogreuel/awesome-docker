@@ -1,0 +1,1 @@
+- Alter max_map_count case elasticsearch fails to run `sysctl -w vm.max_map_count=262144` (command on host)

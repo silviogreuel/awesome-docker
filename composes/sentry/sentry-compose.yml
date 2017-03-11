@@ -1,0 +1,38 @@
+redis:
+  image: redis
+
+postgres:
+  image: postgres:latest
+  environment:
+    - POSTGRES_USER:sentry
+    - POSTGRES_PASSWORD:sentry
+  volumes:
+    - /var/data/sentry/postgre:/var/lib/postgresql/data:rw
+
+sentry:
+  image: sentry:latest
+  environment:
+    - SENTRY_SECRET_KEY=hvl$$*nw6fh*m*$$*gc447jc)&m775+bw(^3n!#o#r04c-!)5usw
+  links:
+    - redis
+    - postgres
+  ports:
+    - 9000:9000
+
+cron:
+  image: sentry:latest
+  environment:
+    - SENTRY_SECRET_KEY=hvl$$*nw6fh*m*$$*gc447jc)&m775+bw(^3n!#o#r04c-!)5usw
+  links:
+    - redis
+    - postgres
+  command: "sentry run cron"
+
+worker:
+  image: sentry:latest
+  environment:
+    - SENTRY_SECRET_KEY=hvl$$*nw6fh*m*$$*gc447jc)&m775+bw(^3n!#o#r04c-!)5usw
+  links:
+    - redis
+    - postgres
+  command: "sentry run worker"
