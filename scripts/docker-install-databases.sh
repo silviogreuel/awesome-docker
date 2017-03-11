@@ -1,0 +1,2 @@
+for image in rethinkdb cassandra redis rabbitmq postgres mysql mongo memcached mariadb elasticsearch couchbase solr couchdb influxdb; do echo $image; done
+for image in rethinkdb cassandra redis rabbitmq postgres mysql mongo memcached mariadb elasticsearch couchbase solr couchdb influxdb; do docker pull $image; done

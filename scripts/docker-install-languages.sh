@@ -1,0 +1,2 @@
+for image in php mono elixir julia erlang clojure haskell gcc perl ruby golang node do; echo $image; done
+for image in php mono elixir julia erlang clojure haskell gcc perl ruby golang node do; docker pull $image; done

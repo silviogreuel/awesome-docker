@@ -1,0 +1,1 @@
+[ -n "$1" ] && docker inspect --format="{{.NetworkSettings.Ports}}" $1

@@ -1,0 +1,2 @@
+for image in sentry gocd/gocd-agent gocd/gocd-server logstash sonarqube thrift; do echo $image; done
+for image in sentry gocd/gocd-agent gocd/gocd-server logstash sonarqube thrift; do docker pull $image; done
