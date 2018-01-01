@@ -27,6 +27,6 @@ services:
     image: rethinkdb
     ports:
       - "28015:28015"
-      - "8080:8080"
+      - "8090:8080"
     volumes:
       - ./rethinkdb_data:/data/rethinkdb_data
