@@ -39,7 +39,7 @@ services:
       - ./kibana/config/:/usr/share/kibana/config
     ports:
       - "5601:5601"
-    networks:
+    network:
       - elk
     depends_on:
       - elasticsearch
