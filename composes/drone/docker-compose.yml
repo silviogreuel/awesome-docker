@@ -18,6 +18,8 @@ services:
     image: drone/agent:1
     env_file: AGENT.env
     restart: always
+    depends_on: 
+      - server
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
 
