@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  metabase:
+    image: metabase/metabase:latest
+    env_file: METABASE.env
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    restart: unless-stopped
+    networks:
+      - db
+  db:
+    image: postgres
+    env_file: POSTGRES.env
+    restart: unless-stopped
+    networks:
+      - db
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
+
+networks:
+  db:
