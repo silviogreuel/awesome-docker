@@ -1,0 +1,44 @@
+version: "3.7"
+
+services:
+  smtp:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - listmonk
+    
+  db:
+    image: postgres:11-alpine
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=listmonk
+      - POSTGRES_USER=listmonk
+      - POSTGRES_DB=listmonk
+    volumes:
+      - listmonk-data:/var/lib/postgresql/data
+    networks:
+      - listmonk
+
+  app:
+    image: listmonk/listmonk:latest
+    restart: unless-stopped
+    command: [sh, -c, "yes | ./listmonk --install && ./listmonk"]
+    volumes:
+      - ./config.toml:/listmonk/config.toml
+    depends_on:
+      - db
+      - smtp
+    ports:
+      - "9000:9000"
+    networks:
+      - listmonk
+
+networks:
+  listmonk:
+
+volumes:
+  listmonk-data:

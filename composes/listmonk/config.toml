@@ -1,0 +1,91 @@
+[app]
+# Interface and port where the app will run its webserver.
+address = "0.0.0.0:9000"
+
+# Public root URL of the listmonk installation that'll be used
+# in the messages for linking to images, unsubscribe page etc.
+root = "http://localhost:9000"
+
+# (Optional) full URL to the static logo to be displayed on
+# user facing view such as the unsubscription page.
+# eg: https://mysite.com/images/logo.svg
+logo_url = ""
+
+# (Optional) full URL to the static favicon to be displayed on
+# user facing view such as the unsubscription page.
+# eg: https://mysite.com/images/favicon.png
+favicon_url = ""
+
+# The default 'from' e-mail for outgoing e-mail campaigns.
+from_email = "listmonk <from@mail.com>"
+
+# List of e-mail addresses to which admin notifications such as
+# import updates, campaign completion, failure etc. should be sent.
+# To disable notifications, set an empty list, eg: notify_emails = []
+notify_emails = ["admin1@mysite.com", "admin2@mysite.com"]
+
+# Path to the uploads directory where media will be uploaded.
+upload_path = "uploads"
+
+# Upload URI that's visible to the outside world. The media
+# uploaded to upload_path will be made available publicly
+# under this URI, for instance, list.yoursite.com/uploads.
+upload_uri = "/uploads"
+
+# Maximum concurrent workers that will attempt to send messages
+# simultaneously. This should depend on the number of CPUs the
+# machine has and also the number of simultaenous e-mails the
+# mail server will
+concurrency = 100
+
+# The number of errors (eg: SMTP timeouts while e-mailing) a running
+# campaign should tolerate before it is paused for manual
+# investigation or intervention. Set to 0 to never pause.
+max_send_errors = 1000
+
+
+# Database.
+[db]
+host = "db"
+port = 5432
+user = "listmonk"
+password = "listmonk"
+database = "listmonk"
+ssl_mode = "disable"
+
+# TQekh4quVgGc3HQ
+
+
+# SMTP servers.
+[smtp]
+    [smtp.my0]
+        enabled = true
+        host = "smtp"
+        port = "1025"
+
+        # cram or plain.
+        auth_protocol = "cram"
+        username = "xxxxx"
+        password = ""
+
+        # Maximum time (milliseconds) to wait per e-mail push.
+        send_timeout = 5000
+
+        # Maximum concurrent connections to the SMTP server.
+        max_conns = 10
+
+    [smtp.postal]
+        enabled = false
+        host = "my.smtp.server2"
+        port = "25"
+
+        # cram or plain.
+        auth_protocol = "plain"
+        username = "xxxxx"
+        password = ""
+
+        # Maximum time (milliseconds) to wait per e-mail push.
+        send_timeout = 5000
+
+        # Maximum concurrent connections to the SMTP server.
+        max_conns = 10
