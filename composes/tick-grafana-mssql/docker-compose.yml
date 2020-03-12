@@ -1,0 +1,54 @@
+version: "3"
+
+services:
+    telegraf:
+        build: ./telegraf
+        networks: 
+            - ingress
+        env_file: ./telegraf/.env
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:rw
+
+    influxdb:
+        build: ./influxdb
+        networks: 
+            - ingress 
+        ports:
+            - 8081:8081
+        env_file: ./telegraf/.env
+
+    chronograf:
+        build: ./chronograf
+        networks: 
+            - ingress
+        ports:
+            - 8888:8888
+        env_file: ./chronograf/.env
+
+    kapacitor:
+        build: ./kapacitor
+        networks: 
+            - ingress
+        ports:
+            - 9092:9092
+        env_file: ./kapacitor/.env
+
+    grafana:
+        build: ./grafana
+        networks: 
+            - ingress 
+        ports:
+            - 3000:3000
+        env_file: ./grafana/.env
+
+    mssql: 
+        build: ./mssql
+        networks:
+            - ingress 
+        ports:
+            - 1433:1433
+        env_file: mssql/.env
+
+networks: 
+    ingress:
+        driver: bridge
