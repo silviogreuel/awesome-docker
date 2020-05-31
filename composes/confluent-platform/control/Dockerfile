@@ -1,0 +1,1 @@
+FROM confluentinc/cp-enterprise-control-center:latest

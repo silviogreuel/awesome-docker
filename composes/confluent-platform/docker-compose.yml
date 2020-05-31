@@ -1,0 +1,130 @@
+version: '2'
+services:
+    zookeeper:
+        build: ./zookeeper
+        ports:
+            - "2181:2181"
+        networks: 
+            - ingress
+        env_file: 
+            - ./zookeeper/.env
+            
+    kafka:
+        build: ./kafka
+        depends_on:
+            - zookeeper
+        ports:
+            - "9092:9092"
+        networks: 
+            - ingress
+        env_file: 
+            - ./kafka/.env
+
+    schema:
+        build: ./schema
+        depends_on:
+            - zookeeper
+            - kafka
+        ports:
+            - "8081:8081"
+        networks: 
+            - ingress
+        env_file: 
+            - ./schema/.env
+
+    connect:
+        build: ./connect
+        depends_on:
+            - zookeeper
+            - kafka
+            - schema
+        ports:
+            - "8083:8083"
+        networks: 
+            - ingress
+        env_file: 
+            - ./connect/.env
+
+    control:
+        build: ./control
+        depends_on:
+            - zookeeper
+            - kafka
+            - schema
+            - connect
+            - ksql-server
+        ports:
+            - "9021:9021"
+        networks: 
+            - ingress
+        env_file:
+            - ./control/.env
+
+    ksql-server:
+        build: ./ksql-server
+        depends_on:
+            - kafka
+            - connect
+        ports:
+            - "8088:8088"
+        networks: 
+            - ingress
+        env_file: 
+            - ./ksql-server/.env
+
+    ksql-cli:
+        build: ./ksql-cli
+        depends_on:
+            - kafka 
+            - connect
+            - ksql-server
+        networks: 
+            - ingress
+        entrypoint: /bin/sh
+        tty: true
+
+    kafka-rest:
+        build: ./kafka-rest
+        depends_on:
+            - zookeeper
+            - kafka 
+            - schema
+        ports:
+            - 8082:8082
+        networks: 
+            - ingress
+        env_file: 
+            - ./kafka-rest/.env
+
+    mssql:
+        build: ./mssql
+        ports:
+            - 1433:1433
+        networks: 
+            - ingress
+        env_file: 
+            - ./mssql/.env
+        mem_limit: 2g
+
+    pgsql:
+        build: ./pgsql
+        ports:
+            - 5432:5432
+        networks:
+            - ingress
+        env_file:
+            - ./pgsql/.env
+        mem_limit: 1g
+
+    redis:
+        build: ./redis
+        ports: 
+            - 6379
+        networks:
+            - ingress
+        env_file:
+            - ./redis/.env
+    
+networks: 
+    ingress:
+        driver: bridge

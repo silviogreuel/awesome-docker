@@ -1,0 +1,1 @@
+FROM confluentinc/cp-ksql-server:latest
